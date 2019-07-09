@@ -1,0 +1,188 @@
+<!-- BOARD画面 -->
+<ion-header>
+    <div class="headerMenuTop" style="background-color: #FFB300;">
+        <div class="header-con" style="margin-left: 0.8%;">{{storeNm}}</div>
+        <div class="header-con">
+            <span class="mar-r-15">{{selectedText}}</span>
+        </div>
+        <div class="header-con" style="margin-right:0.8%;">
+            <span class="mar-r-20">
+                <ion-icon name="apps" item-end class="font-30" color="light" (touchstart)="dateSelect()"></ion-icon>
+            </span>
+            <span (click)="presentPopover($event)">
+                <ion-icon name="md-arrow-dropdown" class="font-30" color="light"></ion-icon>
+            </span>
+        </div>
+    </div>
+    <div class="headerMenubottom">
+        <div class="headerMenubottom-zero"></div>
+        <div class="headerMenubottom-con">
+            <div class="header-con">
+                <button ion-button icon-right color="heaButton" class="mar-l-10" style="font-size:15px;" (click)="goHandoverpopPage(timeSlotInfo.timeSlotNm)">
+                    {{selectedShowDate}}　{{timeSlotInfo.timeSlotNm}}
+                    <ion-icon name="ios-attention-red" style="font-size: 28px; font-weight: bold;" *ngIf="hasHandover" color="warn"></ion-icon>
+                    <ion-icon name="ios-attention-white" style="font-size: 28px;font-weight: bold;" *ngIf="!hasHandover" color="warn"></ion-icon>
+                </button>
+            </div>
+            <div class="header-con">
+                <button ion-button no-padding class="mar-r-16 font-17 pad-5" color="header" (click)="activeReduce()">
+                    <ion-icon name="md-arrow-dropleft" class="mar-r-10 font-30"></ion-icon> 前のシフト
+                </button>
+                <button ion-button no-padding class="mar-r-10 font-17 pad-5" color="header" (click)="activeAdd()">
+                    次のシフト
+                    <ion-icon name="md-arrow-dropright" class="mar-l-10 font-30"></ion-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</ion-header>
+<ion-content (ionScroll)="scrollHandler($event)" id="mainPad" [class]="scrollable">
+    <div class="div-board">
+        <div name="scrollHeader" class="task-state-Name">
+            <div class="name-empty"></div>
+            <div class="name-ready">未着手</div>
+            <div class="name-start">進行中</div>
+            <div class="name-end">完了</div>
+            <div class="name-stop">中止</div>
+        </div>
+        <div class="task-state" *ngFor="let categoryItem of categoryInfoList;let i=index">
+            <div class="task-name border-bottom">
+                <div class="task-name-con">{{categoryItem.categoryNm}}</div>
+            </div>
+            <div class="task-ready">
+                <div id="{{categoryItem.categoryId}}S" style="width:100%" *ngFor="let sTaskInfor of categoryItem.sTaskInforList" [dragula]="categoryItem.categoryId">
+                    <div id="{{sTask.taskId}}" class="taskButton" *ngFor="let sTask of sTaskInfor.taskInfoList;let q=index" (press)="longPress(sTask,null,sTaskInfor.taskInfoList,q,i)"
+                        (touchend)="goControl(sTask,categoryItem.categoryId,null,sTaskInfor.taskInfoList,q,i)" [ngStyle]="{'background-color':sTask.status=='E'?'#90A4AE':sTask.status=='A'?'#BDBDBD':'white'}"
+                        (touchmove)="moveSet()">
+                        <div class="taskButtonTop">
+                            <div class="lb-taskButtonTopC"></div>
+                        </div>
+                        <div class="taskButtonBottom">
+                            <div class="font-16 taskB-left">
+                                <div class="taskB-title">{{viewKbn=='2'?sTask.opNm:sTask.cgNm}}</div>
+                                <div class="taskB-content">{{viewKbn=='2'?sTask.workerNm:sTask.opNm}}</div>
+                            </div>
+                            <div class="taskB-right">
+                                <ion-icon name="ios-attention-red" class="font-33 font-w" style="margin-right:3px; font-weight: bold;" [hidden]="sTask.hasHandover==0"></ion-icon>
+                                <ion-icon name="ios-flag" class="font-33 font-w" style="margin-right:3px;" [hidden]="sTask.opId!=0"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="{{categoryItem.categoryId}}S" style="width: 100%;height: 100%;" *ngIf="categoryItem.sTaskInforList.length==0" [dragula]="categoryItem.categoryId"></div>
+            </div>
+            <div class="task-start" style="border-right: 1px solid rgb(255, 220, 208)">
+                <div id="{{categoryItem.categoryId}}I" style="width:100%" *ngFor="let iTaskInfor of categoryItem.iTaskInforList" [dragula]="categoryItem.categoryId">
+                    <div id="{{iTask.taskId}}" class="taskButton" *ngFor="let iTask of iTaskInfor.taskInfoList;let q=index" (press)="longPress(iTask,null,iTaskInfor.taskInfoList,q,i)"
+                        [ngStyle]="{'background-color':iTask.status=='E'?'#90A4AE':iTask.status=='A'?'#BDBDBD':'white'}" (touchend)="goControl(iTask,categoryItem.categoryId,null,iTaskInfor.taskInfoList,q,i)"
+                        (touchmove)="moveSet()">
+                        <div class="taskButtonTop">
+                            <div class="lb-taskButtonTopC"></div>
+                        </div>
+                        <div class="taskButtonBottom">
+                            <div class="font-16 font-w taskB-left">
+                                <div class="taskB-title">{{viewKbn=='2'?iTask.opNm:iTask.cgNm}}</div>
+                                <div class="taskB-content">{{viewKbn=='2'?iTask.workerNm:iTask.opNm}}</div>
+                            </div>
+                            <div class="taskB-right">
+                                <ion-icon name="ios-attention-red" class="font-33 font-w" style="margin-right:3px; font-weight: bold;" [hidden]="iTask.hasHandover==0"></ion-icon>
+                                <ion-icon name="ios-flag" class="font-33 font-w" style="margin-right:3px;" [hidden]="iTask.opId!=0"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="{{categoryItem.categoryId}}I" style="width: 100%;height: 100%;" *ngIf="categoryItem.iTaskInforList.length==0" [dragula]="categoryItem.categoryId"></div>
+            </div>
+            <div class="task-end">
+                <div id="{{categoryItem.categoryId}}E" style="width:100%" *ngFor="let eTaskInfor of categoryItem.eTaskInforList" [dragula]="categoryItem.categoryId">
+                    <div id="{{eTask.taskId}}" class="taskButton" *ngFor="let eTask of eTaskInfor.taskInfoList;let q=index" [ngStyle]="{'background-color':eTask.status=='E'?'#90A4AE':eTask.status=='A'?'#BDBDBD':'white'}"
+                        (touchend)="goControl(eTask,categoryItem.categoryId,null,eTaskInfor.taskInfoList,q,i)" (press)="longPress(eTask,null,eTaskInfor.taskInfoList,q,i)"
+                        (touchmove)="moveSet()">
+                        <div class="taskButtonTop">
+                            <div class="lb-taskButtonTopC"></div>
+                        </div>
+                        <div class="taskButtonBottom">
+                            <div class="font-16 font-w taskB-left">
+                                <div class="taskB-title">{{viewKbn=='2'?eTask.opNm:eTask.cgNm}}</div>
+                                <div class="taskB-content">{{viewKbn=='2'?eTask.workerNm:eTask.opNm}}</div>
+                            </div>
+                            <div class="taskB-right">
+                                <ion-icon name="ios-attention-red" class="font-33 font-w" style="margin-right:3px; font-weight: bold;" [hidden]="eTask.hasHandover==0"></ion-icon>
+                                <ion-icon name="ios-flag" class="font-33 font-w" style="margin-right:3px;" [hidden]="eTask.opId!=0"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="{{categoryItem.categoryId}}E" style="width: 100%;height: 100%;" *ngIf="categoryItem.eTaskInforList.length==0" [dragula]="categoryItem.categoryId"></div>
+            </div>
+            <div class="task-stop">
+                <div id="{{categoryItem.categoryId}}A" style="width:100%" *ngFor="let aTaskInfor of categoryItem.aTaskInforList" [dragula]="categoryItem.categoryId">
+                    <div id="{{aTask.taskId}}" class="taskButton" *ngFor="let aTask of aTaskInfor.taskInfoList;let q=index" (press)="longPress(aTask,null,aTaskInfor.taskInfoList,q,i)"
+                        [ngStyle]="{'background-color':aTask.status=='E'?'#90A4AE':aTask.status=='A'?'#BDBDBD':'white'}" (touchend)="goControl(aTask,categoryItem.categoryId,null,aTaskInfor.taskInfoList,q,i)"
+                        (touchmove)="moveSet()">
+                        <div class="taskButtonTop">
+                            <div class="lb-taskButtonTopC"></div>
+                        </div>
+                        <div class="taskButtonBottom">
+                            <div class="font-16 font-w taskB-left">
+                                <div class="taskB-title">{{viewKbn=='2'?aTask.opNm:aTask.cgNm}}</div>
+                                <div class="taskB-content">{{viewKbn=='2'?aTask.workerNm:aTask.opNm}}</div>
+                            </div>
+                            <div class="taskB-right">
+                                <ion-icon name="ios-attention-red" class="font-33 font-w" style="margin-right:3px; font-weight: bold;" [hidden]="aTask.hasHandover==0"></ion-icon>
+                                <ion-icon name="ios-flag" class="font-33 font-w" style="margin-right:3px;" [hidden]="aTask.opId!=0"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="{{categoryItem.categoryId}}A" style="width: 100%;height: 100%;" *ngIf="categoryItem.aTaskInforList.length==0" [dragula]="categoryItem.categoryId"></div>
+            </div>
+        </div>
+        <div class="task-state"></div>
+    </div>
+    <ion-fab bottom right style="z-index: 9999; right: 90px;" (click)="refreshTask()">
+        <button ion-fab color="warn">
+            <ion-icon name="md-refresh" color="light" style="font-size: 3.4rem;"></ion-icon>
+        </button>
+    </ion-fab>
+    <ion-fab bottom right style="z-index: 9999;">
+        <button ion-fab color="warn" (click)="goTaskC()">
+            <ion-icon name="add" color="light"></ion-icon>
+        </button>
+    </ion-fab>
+</ion-content>
+<div class="lef-bot-but" (click)="changMFlgFalse()">
+    <div class="let-bot-but-con">未割当</div>
+</div>
+<div class="lb-box" [hidden]="mFlg">
+    <div class="lb-box-left" (click)="changMFlgTrue()">
+        <div class="lb-box-left-con">未割当</div>
+    </div>
+    <div name="conName" class="lb-box-right" *ngIf="noAssign!=undefined">
+        <div id='{{task.taskId}}' class="taskButton" style="width: 24.8%" *ngFor="let task of noAssign.taskInfoList;let q=index"
+            (touchend)="goControl(task,task.cgId,true,null,q,null)">
+            <div class="taskButtonTop">
+                <div class="lb-taskButtonTopC"></div>
+            </div>
+            <div class="taskButtonBottom">
+                <div class="font-16 taskB-left">
+                    <div class="taskB-title">{{task.opNm}}</div>
+                    <div class="lb-taskB-content" *ngIf="task.workerNm!=''&&task.workerNm!=null">
+                        <div class="taskB-content-workerNm">{{task.workerNm}}</div>
+                        <div class="taskB-content-time" *ngIf="(task.planSTime!=''&&task.planSTime!=null&&task.planETime!=''&&task.planETime!=null)">{{task.planSTime.substr(11,2)>12?((task.planSTime.substr(11,2)-12)>9?((task.planSTime.substr(11,2)-12)+task.planSTime.substr(13,3)+'PM'):('0'+(task.planSTime.substr(11,2)-12)+task.planSTime.substr(13,3)+'PM')):(task.planSTime.substr(11,5)+'AM')}}-{{task.planETime.substr(11,2)>12?((task.planETime.substr(11,2)-12)>9?((task.planETime.substr(11,2)-12)+task.planETime.substr(13,3)+'PM'):('0'+(task.planETime.substr(11,2)-12)+task.planETime.substr(13,3)+'PM')):(task.planETime.substr(11,5)+'AM')}}</div>
+                        <div class="taskB-content-time" style="color: #fdbb2b" *ngIf="!(task.planSTime!=''&&task.planSTime!=null&&task.planETime!=''&&task.planETime!=null)">未</div>
+                    </div>
+                    <div class="lb-taskB-content" *ngIf="!(task.workerNm!=''&&task.workerNm!=null)">
+                        <div class="taskB-content-workerNm" style="color: #fdbb2b;">未</div>
+                        <div class="taskB-content-time" *ngIf="task.planSTime!=''&&task.planSTime!=null&&task.planETime!=''&&task.planETime!=null">{{task.planSTime.substr(11,2)>12?((task.planSTime.substr(11,2)-12)>9?((task.planSTime.substr(11,2)-12)+task.planSTime.substr(13,3)+'PM'):('0'+(task.planSTime.substr(11,2)-12)+task.planSTime.substr(13,3)+'PM')):(task.planSTime.substr(11,5)+'AM')}}-{{task.planETime.substr(11,2)>12?((task.planETime.substr(11,2)-12)>9?((task.planETime.substr(11,2)-12)+task.planETime.substr(13,3)+'PM'):('0'+(task.planETime.substr(11,2)-12)+task.planETime.substr(13,3)+'PM')):(task.planETime.substr(11,5)+'AM')}}</div>
+                        <div class="taskB-content-time" style="color: #fdbb2b" *ngIf="!(task.planSTime!=''&&task.planSTime!=null&&task.planETime!=''&&task.planETime!=null)">未</div>
+                    </div>
+                </div>
+                <div class="taskB-right">
+                    <ion-icon name="ios-attention-red" class="font-33 font-w" style="margin-right:3px; font-weight: bold;" [hidden]="task.hasHandover==0"></ion-icon>
+                    <ion-icon name="ios-flag" class="font-33 font-w" style="margin-right:3px;" [hidden]="task.opId!=0"></ion-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

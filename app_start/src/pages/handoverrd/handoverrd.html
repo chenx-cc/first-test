@@ -1,0 +1,69 @@
+<ion-header>
+    <ion-item no-lines color="warn" style="height:50px;">
+      <ion-label item-start>
+        <ion-icon name="md-arrow-dropleft" color="light" class="font-30 font-w" (click)="goBackPop()"></ion-icon>
+      </ion-label>
+      <ion-label item-content></ion-label>
+      <ion-label item-start class="text-center font-18 bold-white" icon-right>
+          {{frameNm}}
+        <ion-icon name="alert-outline" class="font-20 font-w" hidden></ion-icon>
+      </ion-label>
+    </ion-item>
+  </ion-header>
+  
+  <ion-content padding>
+    <div class="width-100 con-left" style="height:85.5%;overflow:scroll" [hidden]="hiddenFlg">
+        <div class="width-50 font-16 font-w">
+          <div class="width-95 border-top">
+            <div class="con-left">
+              <div class="width-40 pad-10 con-center color">入力者</div>
+              <div class="width-60 pad-10 border-right border-bottom text-right">{{handoverWorker}}</div>
+            </div>
+            <div class="con-left">
+              <div class="width-40 pad-10 con-center color">引継日時</div>
+              <div class="width-60 pad-10 border-right border-bottom text-right">{{handoverDateF}}</div>
+            </div>
+            <div class="con-left" *ngIf="handoverOpId != null">
+              <div class="width-40 pad-10 con-center color">引継先業務</div>
+              <div class="width-60 pad-10 border-right border-bottom text-right">{{handoverOp}}</div>
+            </div>
+            <div class="con-left" *ngIf="timeSlotId != null">
+              <div class="width-40 pad-10 con-center color">引継先時間帯</div>
+              <div class="width-60 pad-10 border-right border-bottom text-right">{{handoverTimeSolt}}</div>
+            </div>
+            <div class="con-left">
+              <div class="width-40 pad-10 con-center color">引継内容</div>
+              <div class="width-60 pad-10 border-0 border-right border-bottom text-left" style="height:300px;">{{handoverContents}}</div>
+            </div>
+
+
+            <div class="con-left">
+              <div class="width-40 pad-10 con-center color">画像</div>
+              <div class="width-60 pad-10 border-right border-bottom con-pic" style="height:300px;">
+                <ion-spinner name="crescent" class="spinner spinner-ios spinner-crescent spinner-ios-crescent" *ngIf="!handoverPicFlg"></ion-spinner>
+                <img src="{{handoverPic}}" width="100%" height="100%" *ngIf="handoverPicFlg" />
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="width-50 font-16 font-w border-left"></div>
+      </div>
+      <div class="page-slide" [hidden]="hiddenFlg">
+        <ion-icon name="md-arrow-dropleft" color="{{page > 1 ? 'warn' : 'dark'}}" (click)="pageReduce()" class="font-40 font-w"></ion-icon>
+        <div class="con-left pad-lr-20 font-18">　{{page}}　/　{{pages}}　件目　</div>
+        <ion-icon name="md-arrow-dropright" color="{{pages > 1 ? page != pages ? 'warn' : 'dark' :'dark'}}" (click)="pageAdd()" class="font-40 font-w"></ion-icon>
+      </div>
+      <ion-item no-lines style="padding-left:5px;" [hidden]="hiddenFlg">
+        <ion-label item-start></ion-label>
+        <button ion-button round item-start color="warn" style="height:40px;width:200px;" class="bold-white" (click)="deleteButton()">
+          <ion-label class="font-16 font-w">削除</ion-label>
+        </button>
+        <ion-label></ion-label>
+        <button ion-button round item-start color="warn" style="height:40px;width:200px;" class="bold-white" (click)="goEdit()">
+            <ion-label class="font-16 font-w">編集</ion-label>
+          </button>
+        <ion-label item-end></ion-label>
+      </ion-item>
+  </ion-content>

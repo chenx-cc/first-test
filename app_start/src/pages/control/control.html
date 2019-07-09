@@ -1,0 +1,102 @@
+<ion-content>
+    <ion-list class="margin-0 text-center">
+        <div style="width: 400px;height: 45px;display: flex;justify-content: flex-end;" (click)="close()">
+            <ion-icon name="md-close" class="font-35" style="padding-left:10px;padding-right:10px;"></ion-icon>
+        </div>
+        <div style="margin-left:10px;margin-right:10px;">
+            <div id="taskButton" class="taskButton">
+                <div class="taskB-left">
+                    <ion-icon name="ios-will" class="font-40" [hidden]="taskUndoneFlg"></ion-icon>
+                    <ion-icon name="ios-doing" class="font-40" [hidden]="taskDoingFlg"></ion-icon>
+                    <ion-icon name="ios-stop" class="font-40" [hidden]="taskStopFlg"></ion-icon>
+                    <ion-icon name="ios-done" class="font-40" [hidden]="taskDoneFlg"></ion-icon>
+                </div>
+                <div class="taskB-right font-16">
+                    <div class="right-top">
+                        {{getData.opNm}}
+                    </div>
+                    <div class="right-next">
+                        <div class="right-left">{{getData.workerNm}}</div>
+                        <div class="right-right">
+                            <div>
+                                {{startTime}} {{endTime}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ctrlbutton">
+            <!-- 未着手 -->
+            <div class="ctrlbutton-con">
+                <ion-icon name="{{taskButtonUndoneFlg?'ios-will-grey':'ios-will'}}" (touchstart)="changeStatus(1)" class="font-40" style="color:black;"></ion-icon>
+                <div class="font-16 font-w" [ngStyle]="{'color':taskButtonUndoneFlg?'#ccc':'black'}">{{taskButtonN}}</div>
+            </div>
+            <!-- start -->
+            <div class="ctrlbutton-con">
+                <ion-icon name="{{taskButtonDoingFlg?'ios-doing-grey':'ios-doing'}}" (touchstart)="changeStatus(2)" class="font-40"></ion-icon>
+                <div class="font-16 font-w" [ngStyle]="{'color':taskButtonDoingFlg?'#ccc':'black'}">{{taskButtonS}}</div>
+            </div>
+            <!-- 中止  -->
+            <div class="ctrlbutton-con">
+                <ion-icon name="{{taskButtonStopFlg?'ios-stop-grey':'ios-stop'}}" (touchstart)="changeStatus(3)" class="font-40"></ion-icon>
+                <div class="font-16 font-w" [ngStyle]="{'color':taskButtonStopFlg?'#ccc':'black'}">{{taskButtonSu}}</div>
+            </div>
+            <!-- end -->
+            <div class="ctrlbutton-con">
+                <ion-icon name="{{taskButtonDoneFlg?'ios-done-grey':'ios-done'}}" (touchstart)="changeStatus(4)" class="font-40"></ion-icon>
+                <div class="font-16 font-w" [ngStyle]="{'color':taskButtonDoneFlg?'#ccc':'black'}">{{taskButtonE}}</div>
+            </div>
+        </div>
+    </ion-list>
+    <ion-list class="margin-0" [hidden]="checkListFLG" style="border-top: 1px solid #ccc;">
+        <ion-item style="border-top:0;" class="font-16 font-w" *ngFor="let item of checkListNew; let i=index">
+            <ion-label text-wrap style="margin-right:0;">{{item.chkContents}}</ion-label>
+            <ion-checkbox class="contain" item-start checked="{{item.chkStatus==1}}" disabled="{{item.chkStatus==2}}" color="dark" (click)="check(i)"></ion-checkbox>
+            <ion-toggle class="contain" style="padding-left:5px" item-end ngModel="{{item.chkStatus!=2}}" (ngModelChange)="checkListInvalid($event,i)"></ion-toggle>
+        </ion-item>
+    </ion-list>
+    <ion-list class="margin-0" style="border-top: 1px solid #ccc;">
+        <button ion-item (click)="goManual()" [disabled]="manualFlg" class="font-16 font-w">
+            <ion-icon item-start name="ios-advice"></ion-icon>
+            {{advice}}
+        </button>
+        <button ion-item class="font-16 font-w" (click)="goHandoverc()">
+            <ion-icon item-start name="ios-attention-grey" style="font-weight: bold"></ion-icon>
+            {{transferDone}}
+        </button>
+        <button ion-item class="font-16 font-w" (click)="goHandoverrd()" [disabled]="!getData['hasHandover']">
+            <ion-icon item-start name="ios-attention-red" style="font-weight: bold"></ion-icon>
+            {{transferOk}}
+        </button>
+        <button ion-item (click)="goTaskrd()" class="font-16 font-w">
+            <ion-icon item-start name="ios-Oval-2"></ion-icon>
+            {{detail}}
+        </button>
+    </ion-list>
+    <ion-list class="margin-0" [hidden]="true" style="border-top: 1px solid #ccc;">
+        <ion-item class="font-16 font-w">
+            <ion-icon color="warn" item-start name="ios-alert-outline"></ion-icon>
+            <ion-label>{{warnContent}}</ion-label>
+        </ion-item>
+    </ion-list>
+    <ion-list class="margin-0" style="border-top: 1px solid #ccc;">
+        <ion-item [hidden]="true">
+            <ion-icon item-start color="warn" name="ios-order_first" [hidden]="taskIconOne"></ion-icon>
+            <ion-icon item-start color="warn" name="ios-order_second" [hidden]="taskIconTwo"></ion-icon>
+            <ion-icon item-start color="warn" name="ios-order_third" [hidden]="taskIconThree"></ion-icon>
+            <div class="font-w font-16 fswn" [hidden]="taskContentFromFLG">
+                <div style="display: flex">{{firstW}}</div>
+                <div style="display: flex;flex-direction: column;">
+                    <div class="fsopnm" *ngFor="let item of taskFromList">{{item.opNm}}</div>
+                </div>
+            </div>
+            <div class="font-w font-16 fswn" [hidden]="taskContentToFLG">
+                <div style="display: flex">{{secondW}}</div>
+                <div style="display: flex;flex-direction: column;">
+                    <div class="fsopnm" *ngFor="let item of taskToList">{{item.opNm}}</div>
+                </div>
+            </div>
+        </ion-item>
+    </ion-list>
+</ion-content>

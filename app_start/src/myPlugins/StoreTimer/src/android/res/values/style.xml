@@ -1,0 +1,11 @@
+<resources>
+  <style name="MyLight" parent="android:Theme.DeviceDefault.Light.Dialog.Alert" >
+    <item name="android:windowBackground">@android:color/background_light</item>
+    <item name="android:backgroundDimAmount">0.25</item>
+  </style>
+
+  <style name="AnimBottom" parent="@android:style/Animation">
+    <item name="android:windowEnterAnimation">@anim/push_up_in</item>
+    <item name="android:windowExitAnimation">@anim/push_up_out</item>
+  </style>
+</resources>

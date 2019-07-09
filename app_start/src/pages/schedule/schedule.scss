@@ -1,0 +1,326 @@
+page-schedule {
+
+ion-item{
+    height:50px;
+}
+
+//Header部分
+.headerMenuTop{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    color: color($colors, taskButton);
+}
+.headerMenubottom{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    color: color($colors, taskButton);
+}
+.headerMenubottom-zero{
+    width: 2.45%;
+    height: 50px;
+    background-color: color($colors, taskButton);
+}
+.headerMenubottom-con{
+    width:97.55%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: color($colors, header);
+}
+.header-con{
+    display: flex;
+    font-size: 20px;
+    align-items: center;
+    justify-content: center;
+}
+.mar-l-10{
+    margin-left: 10px;
+}
+.mar-r-10{
+    margin-right: 10px;
+}
+.mar-r-15{
+    margin-right: 15px;
+}
+.mar-r-20{
+    margin-right: 20px;
+}
+.mar-r-50{
+    margin-right: 50px;
+}
+.pad-5{
+    padding: 5px;
+}
+.pad-10{
+    padding: 10px;
+}
+.font-17{
+    font-size: 17px;
+}
+
+//タスク部分
+.div-outermost {
+    display: flex;
+    flex-direction: row;
+}
+.div-left{
+    width: 2.5%;
+    display: flex;
+    flex-direction: column;
+    .left-zero{
+        width: 100%;
+        height: 35px;
+        border-right: 1px solid color($colors, borderc);
+    }
+    .left-header{
+        width: 100%;
+        font-size: 18px;//vw
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        color: color($colors, taskButton);
+        border-top: 1px solid color($colors, borderc);
+        .left-header-con{
+            margin-right: 15%;
+            width: 35%;
+            line-height: 100%;
+        }
+    }
+    .left-header:nth-child(even){
+        background-color: #66BB6A;
+    }
+    .left-header:nth-child(odd){
+        background-color: #FFA726;
+    }
+}
+.div-slide{
+    width: 97.5%;
+    display: flex;
+    flex-direction: column;
+}
+.slide-scrollX{
+    width: 100%;
+    overflow-x: hidden;
+}
+.slide-scrollCon{
+    width: 1000%;
+    transition: 0.8s;
+    display: flex;
+    flex-direction: row;
+}
+.scrollCon{
+    width: 10%;
+    display: flex;
+    flex-direction: column;
+}
+.scrollCon-header{
+    position: relative;
+    z-index: 998;
+    transition: -1s;
+    background: white;
+    width: 100%;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    .con-content{
+        height: 35px;
+        padding-left: 10px;
+        display: flex;
+        text-align: left;
+        align-items: center;
+        border-right: 1px solid color($colors, borderc);
+        // box-shadow: (0 2px 2px color($colors, borderc));
+    }
+}
+.scrollCon-content{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.scrollCon-content:nth-child(even){
+    background-color: #E8F5E9;
+}
+.scrollCon-content:nth-child(odd){
+    background-color: #FFF3E0;
+}
+.con-box{
+    display: flex;
+    flex-direction: row;
+}
+.con-half{
+    box-sizing: border-box;
+    border-right: 0.1px solid color($colors, borderc);
+}
+.time-line{
+    width:1px;
+    height: 100%;
+    position: absolute;
+    z-index: 999;
+    border:1px solid color($colors, warn);
+}
+
+//taskButton
+.taskButton{
+    height:57px;
+    border: 1px solid color($colors, borderc);
+    // box-shadow: 1px 1px 1px color($colors, borderc);
+    background-color: color($colors, taskButton);
+    display: flex;
+    flex-direction: column;
+    // margin-bottom: 2px;
+    position:relative;
+    z-index:99;
+    .taskButtonTop{
+        width: 100%;
+        height: 5%;
+        .taskButtonTopC{
+            // width: 75%;
+            height: 100%;
+            // background-color: color($colors, danger);
+        }
+        .lb-taskButtonTopC{
+            // width: 75%;
+            height: 100%;
+        }
+    }
+    .taskButtonBottom{
+        width: 100%;
+        height: 95%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .taskB-left{
+            margin-left: 10px;
+            width: 100%;
+            min-width: 0;
+            .taskB-title{
+                width: 98%;
+                overflow: hidden;
+                text-overflow:ellipsis;
+                white-space: nowrap;
+                text-align: left;
+            }
+            .taskB-content{
+                width: 98%;
+                overflow: hidden;
+                text-overflow:ellipsis;
+                white-space: nowrap;
+                text-align: left;
+            }
+            .lb-taskB-content{
+                width: 98%;
+                display: flex;
+                flex-direction: row;
+                .taskB-content-workerNm{
+                    width:97%;
+                    min-width:10%;
+                    overflow: hidden;
+                    text-overflow:ellipsis;
+                    white-space: nowrap;
+                    text-align: left;
+                }
+                .taskB-content-time{
+                    width: 97%;
+                    min-width:10%;
+                    overflow: hidden;
+                    text-overflow:ellipsis;
+                    white-space: nowrap;
+                    text-align: right;
+                }
+            }
+        }
+        .taskB-right{
+            display: flex;
+            line-height: 100%;
+            margin-right: 10px;
+            flex-direction: row;
+            justify-content: flex-end;
+        }
+    }
+}
+
+//wei-ge-d
+.lef-bot-but{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width:2.5%;
+    height:112px;
+    font-size: 18px;
+    //垂直に中央に置く
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    color: color($colors, taskButton);
+    background-color: color($colors, header);
+    z-index: 9999;
+    .let-bot-but-con{
+        margin-right: 13%;
+        width: 40%;
+        line-height: 100%;
+    }
+}
+.lb-box{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    background-color: color($colors, header);
+    z-index: 99999;
+    transition-property: transform;
+    transition-duration: 0.3s;
+    transition-delay: 0.3s;
+}
+.lb-box-left{
+    width:2.5%;
+    height:228px;
+    font-size: 18px;
+    //垂直に中央に置く
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    color: color($colors, taskButton);
+    .lb-box-left-con{
+        margin-right: 10%;
+        width: 40%;
+        line-height: 100%;
+    }
+}
+.lb-box-right{
+    display: flex;
+    flex-flow: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    width: 97.5%;
+    height:228px;
+    overflow: auto;
+}
+.lb-box-right-con{
+    display: flex;
+    flex-direction: row;
+    width: 24.8%;
+    height: 55px;
+    margin: 1px;
+}
+.lb-box-right-con-half{
+    width: 50%;
+    height: 55px;
+}
+//スクロール移動不可の制御
+.no-scroll {
+    .scroll-content {
+        overflow: hidden !important;
+    }
+}
+//スクロール移動可の制御
+.enable-scroll {
+    .scroll-content {
+        overflow: scroll !important;
+    }
+}
+}

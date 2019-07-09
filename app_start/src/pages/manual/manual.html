@@ -1,0 +1,23 @@
+<!-- manual画面 -->
+<ion-header>
+    <ion-item no-lines color="warn" style="height:50px;">
+      <ion-label item-start>
+        <ion-icon name="md-arrow-dropleft" color="light" class="font-30 font-w" (click)="goBackPop()"></ion-icon>
+      </ion-label>
+      <ion-label item-content></ion-label>
+      <ion-label item-start class="text-center font-18 bold-white" icon-right>
+        {{headerName}}
+        <ion-icon name="alert-outline" class="font-20 font-w" hidden></ion-icon>
+      </ion-label>
+    </ion-item>
+  </ion-header>
+  
+  <ion-content>
+    <div class="width-100 font-18 font-w">
+      <div class="width-100 con border-top" *ngFor="let item of manualList">
+        <div class="width-20 con-center pad-10 white">{{item.datetime}}</div>
+        <div class="width-80 wid-left pad-10 border-bottom">{{item.manualContents}}</div>
+      </div>
+    </div>
+  </ion-content>
+  

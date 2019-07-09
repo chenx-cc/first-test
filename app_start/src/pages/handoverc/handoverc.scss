@@ -1,0 +1,41 @@
+page-handoverc {
+    .con-left{
+        display:flex;
+        justify-content:flex-start;
+    }
+    .con-center{
+        display:flex;
+        justify-content: space-between;
+        align-items:center;
+    }
+    .con-right{
+        width:60%;
+        display:flex;
+        justify-content:flex-end;
+    }
+    .bold-white{
+        font-weight: bold;
+        color: white;
+    }
+    .color{
+        background-color: rgb(177, 177, 177);
+        color: white;
+    }
+    .row-center{
+        display:flex;
+        justify-content:center;
+    }
+    .con-on-off{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .gw-color{
+        background-color: rgb(177, 177, 177);
+        color: white;
+    }
+    .wb-color{
+        background-color: white;
+        color: black;
+    }
+}

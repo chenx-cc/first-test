@@ -1,0 +1,19 @@
+page-manual {
+    .con{
+        display: flex;
+        justify-content: flex-start;
+    }
+    .bold-white{
+        font-weight: bold;
+        color: white;
+    }
+    .con-center{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .white{
+        background-color: #ccc;
+        color: white;
+    }
+}

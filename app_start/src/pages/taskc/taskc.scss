@@ -1,0 +1,61 @@
+page-taskc {
+    .height-top{
+        height: 30%;
+    }
+    .height-center{
+        height: 30%;
+    }
+    .height-bottom{
+        height: 10%;
+    }
+    .con-left{
+        display:flex;
+        justify-content:flex-start;
+    }
+    .con-center{
+        display:flex;
+        align-items:center;
+    }
+    .con-right{
+        width:60%;
+        display:flex;
+        justify-content:flex-end;
+    }
+    .bold-white{
+        font-weight: bold;
+        color: white;
+    }
+    .color{
+        background-color: rgb(177, 177, 177);
+        color: white;
+    }
+    .row-center{
+        display:flex;
+        justify-content:center;
+    }
+    .con-on-off{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .onOff-div{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .pad-tb-10{
+        padding: 10px 0;
+    }
+    .gw-color{
+        background-color: rgb(177, 177, 177);
+        color: white;
+    }
+    .wb-color{
+        background-color: white;
+        color: black;
+    }
+    .worker-right{
+        display: flex;
+        justify-content: flex-end;
+    }
+}

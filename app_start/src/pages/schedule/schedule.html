@@ -1,0 +1,181 @@
+<!-- スゲジュールのメイン画面 -->
+<ion-header>
+    <div class="headerMenuTop" style="background-color: #FFB300;">
+        <div class="header-con" style="margin-left: 0.8%;">{{storeNm}}</div>
+        <div class="header-con">
+            <span class="mar-r-15">{{selectedText}}</span>
+        </div>
+        <div class="header-con" style="margin-right:0.8%;">
+            <span class="mar-r-20">
+                <ion-icon name="apps" item-end class="font-30" color="light" (touchstart)="dateSelect()"></ion-icon>
+            </span>
+            <span (click)="presentPopover($event)">
+                <ion-icon name="md-arrow-dropdown" class="font-30" color="light"></ion-icon>
+            </span>
+        </div>
+    </div>
+    <div class="headerMenubottom">
+        <div class="headerMenubottom-zero"></div>
+        <div class="headerMenubottom-con">
+            <div class="header-con">
+                <button ion-button icon-right color="heaButton" class="mar-l-10" style="font-size:15px;" (click)="goHandoverpopPage(timeSlotInfo.timeSlotNm)">
+                    {{selectedShowDate}}　{{timeSlotSheetNm}}
+                    <ion-icon name="ios-attention-red" style="font-size: 28px;font-weight: bold;" *ngIf="hasHandover" color="warn"></ion-icon>
+                    <ion-icon name="ios-attention-white" style="font-size: 28px;font-weight: bold;" *ngIf="!hasHandover" color="warn"></ion-icon>
+                </button>
+            </div>
+            <div class="header-con">
+                <button ion-button no-padding class="mar-r-10 font-17 pad-5" color="header" (click)="sheetReduce()">
+                    <ion-icon name="md-arrow-dropleft" class="mar-r-10 font-30"></ion-icon> 前のシフト
+                </button>
+                <button ion-button no-padding class="mar-r-50 font-17 pad-5" color="header" (click)="anHourReduce()">
+                    <ion-icon name="md-arrow-dropleft" class="mar-r-10 font-30"></ion-icon> 前の１時間
+                </button>
+                <button ion-button no-padding class="mar-r-10 font-17 pad-5" color="header" (click)="anHourAdd()">
+                    次の１時間
+                    <ion-icon name="md-arrow-dropright" class="mar-l-10 font-30"></ion-icon>
+                </button>
+                <button ion-button no-padding class="mar-r-10 font-17 pad-5" color="header" (click)="sheetAdd()">
+                    次のシフト
+                    <ion-icon name="md-arrow-dropright" class="mar-l-10 font-30"></ion-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</ion-header>
+<ion-content (ionScroll)="scrollHandler($event)" id="mainPad" [class]="scrollable">
+    <div class="div-outermost" id="div-outermost">
+        <div class="div-left" id="div-left">
+            <div class="left-zero"></div>
+            <div id="leftHeader{{i}}" class="left-header" [ngStyle]="{'height': categoryNmItem.mheight}" *ngFor="let categoryNmItem of categoryInfoList;let i=index">
+                <div id="leftheadercon{{i}}" class="left-header-con">{{categoryNmItem.categoryNm}}</div>
+            </div>
+            <div style="width: 100%;height:228px;"></div>
+        </div>
+        <div class="div-slide">
+            <div id="scrollX" class="slide-scrollX" (touchstart)="scrollTouchS($event)" (touchmove)="scrollTouchM($event)" (touchend)="scrollTouchHourE()">
+                <div id="scrollCon" class="slide-scrollCon">
+                    <div id="timeLine" class="time-line" [hidden]="false"></div>
+                    <div class="scrollCon" *ngFor="let timeSlide of slideList;let p=index">
+                        <div name="scrollHeader" class="scrollCon-header">
+                            <div name='time' class="con-content" *ngFor="let timeItem of timeSlide">
+                                <div [ngStyle]="{'width': gbWidth - 11 + 'px'}">
+                                    {{timeItem.time}} {{timeItem.amOrpm}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="scrollCon-content" [ngStyle]="{'height': categoryNameItem.mheight}" *ngFor="let categoryNameItem of categoryInfoList; let categoryIndex=index">
+                            <div *ngFor="let timeItem of timeSlide;let q=index" class="con-box">
+                                <div id="{{p}}x{{q}}{{categoryNameItem.categoryId}}" name='conName' class="con-half" [ngStyle]="{'width': gbWidth/2 + 'px', 'background-color': viewKbn==1?timeItem.bkColor[categoryIndex].x:'' }" [dragula]="categoryNameItem.categoryId">
+                                    <div id="{{task.taskId}}" class="taskButton" [ngStyle]="{'width': task.taskStyle, 'margin-top': task.top, 'background-color':task.status=='E'?'#90A4AE':task.status=='A'?'#BDBDBD':'white'}"
+                                        *ngFor="let task of categoryNameItem.htask[timeItem.timeO + ':00:00']; let taskIndex=index"
+                                        (touchend)="goControl(task,categoryNameItem.categoryId, false, categoryIndex, timeItem.timeO + ':00:00', taskIndex)"
+                                        (touchmove)="moveSet($event)" (press)="longPress(task,null,timeItem.timeO + ':00:00',categoryIndex,taskIndex)" [hidden]="task.status=='E'||task.status=='A'?isShow:false">
+                                        <div class="taskButtonTop">
+                                            <div class="taskButtonTopC" [ngStyle]="{'width': task.topCStyle, 'background-color': task.topCStyleColor}"></div>
+                                        </div>
+                                        <div class="taskButtonBottom" [ngStyle]="{border:task.status=='I'?'solid red':'none'}">
+                                            <div class="font-16 taskB-left">
+                                                <div class="taskB-title">{{viewKbn=='0'?task.opNm:task.cgNm}}</div>
+                                                <div class="taskB-content">{{viewKbn=='0'?task.workerNm:task.opNm}}</div>
+                                            </div>
+                                            <div class="taskB-right">
+                                                <ion-icon name="ios-attention-red" class="font-33 font-w" style="margin-right:3px;font-weight: bold" [hidden]="task.hasHandover==0"></ion-icon>
+                                                <ion-icon name="ios-flag" class="font-33 font-w" style="margin-right:3px;" [hidden]="task.opId!=0"></ion-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="{{p}}y{{q}}{{categoryNameItem.categoryId}}" name='conName' class="con-half" [ngStyle]="{'width': gbWidth/2 + 'px','background-color': viewKbn==1?timeItem.bkColor[categoryIndex].y:'' }" [dragula]="categoryNameItem.categoryId">
+                                    <div id="{{task.taskId}}" class="taskButton" [ngStyle]="{'width': task.taskStyle, 'margin-top': task.top, 'background-color':task.status=='E'?'#90A4AE':task.status=='A'?'#BDBDBD':'white'}"
+                                        *ngFor="let task of categoryNameItem.htask[timeItem.timeO + ':30:00']; let taskIndex=index"
+                                        (touchend)="goControl(task,categoryNameItem.categoryId, false, categoryIndex, timeItem.timeO + ':30:00', taskIndex)"
+                                        (touchmove)="moveSet($event)" (press)="longPress(task,null,timeItem.timeO + ':30:00',categoryIndex,taskIndex)" [hidden]="task.status=='E'||task.status=='A'?isShow:false">
+                                        <div class="taskButtonTop">
+                                            <div class="taskButtonTopC" [ngStyle]="{'width': task.topCStyle, 'background-color': task.topCStyleColor}"></div>
+                                        </div>
+                                        <div class="taskButtonBottom" [ngStyle]="{border:task.status=='I'?'solid red':'none'}">
+                                            <div class="font-16 taskB-left">
+                                                <div class="taskB-title">{{viewKbn=='0'?task.opNm:task.cgNm}}</div>
+                                                <div class="taskB-content">{{viewKbn=='0'?task.workerNm:task.opNm}}</div>
+                                            </div>
+                                            <div class="taskB-right">
+                                                <ion-icon name="ios-attention-red" class="font-33 font-w" style="margin-right:3px;font-weight: bold" [hidden]="task.hasHandover==0"></ion-icon>
+                                                <ion-icon name="ios-flag" class="font-33 font-w" style="margin-right:3px;" [hidden]="task.opId!=0"></ion-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ion-fab bottom right style="z-index: 9999; right: 336px;" (click)="zoomin()">
+        <button ion-fab color="warn" [disabled]="zoominDisabled">
+            <ion-icon name="ios-zoom-in" color="light" style="font-size: 3.0rem;"></ion-icon>
+        </button>
+    </ion-fab>
+    <ion-fab bottom right style="z-index: 9999; right: 254px;" (click)="zoomout()">
+        <button ion-fab color="warn" [disabled]="zoomoutDisabled">
+            <ion-icon name="ios-zoom-out" color="light" style="font-size: 3.0rem;"></ion-icon>
+        </button>
+    </ion-fab>
+    <ion-fab bottom right style="z-index: 9999; right: 172px;" (click)="refreshTask()">
+        <button ion-fab color="warn">
+            <ion-icon name="md-refresh" color="light" style="font-size: 3.4rem;"></ion-icon>
+        </button>
+    </ion-fab>
+    <ion-fab bottom right style="z-index: 9999;" (click)="goTaskC()">
+        <button ion-fab color="warn">
+            <ion-icon name="add" color="light"></ion-icon>
+        </button>
+    </ion-fab>
+    <ion-fab bottom right style="z-index: 9999;right: 90px;" (click)="positionChange()">
+        <button ion-fab color="warn">
+            <ion-icon name="{{isShow?'ios-change2':'ios-change'}}"></ion-icon>
+        </button>
+    </ion-fab>
+</ion-content>
+<div class="lef-bot-but" (click)="changMFlgFalse()">
+    <div class="let-bot-but-con">未割当</div>
+</div>
+<div class="lb-box" [hidden]="mFlg">
+    <div class="lb-box-left" (click)="changMFlgTrue()">
+        <div class="lb-box-left-con">未割当</div>
+    </div>
+    <div class="lb-box-right" *ngIf="noAssign!=undefined">
+        <div class="lb-box-right-con" *ngFor="let task of noAssign.taskInfoList;let taskIndex=index">
+            <div class="lb-box-right-con-half" [dragula]="'drag-bag'" name="conName">
+                <div id='{{task.taskId}}' name="noAssign" class="taskButton" [ngStyle]="{'width': task.taskStyle, 'top': task.top}" (press)="longPress(task,'drag-bag',null,null,taskIndex)"
+                    (touchmove)="moveSet($event,true)" (touchend)="goControl(task,task.cgId,true,null,null,taskIndex)">
+                    <div class="taskButtonTop">
+                        <div class="lb-taskButtonTopC"></div>
+                    </div>
+                    <div class="taskButtonBottom">
+                        <div class="font-16 taskB-left">
+                            <div class="taskB-title">{{task.opNm}}</div>
+                            <div class="lb-taskB-content" *ngIf="task.workerNm!=''&&task.workerNm!=null">
+                                <div class="taskB-content-workerNm">{{task.workerNm}}</div>
+                                <div class="taskB-content-time" *ngIf="(task.planSTime!=''&&task.planSTime!=null&&task.planETime!=''&&task.planETime!=null)">{{task.planSTime.substr(11,2)>12?((task.planSTime.substr(11,2)-12)>9?('0'+task.planSTime.substr(11,2)-12+task.planSTime.substr(13,3)+'PM'):('0'+(task.planSTime.substr(11,2)-12)+task.planSTime.substr(13,3)+'PM')):(task.planSTime.substr(11,5)+'AM')}}-{{task.planETime.substr(11,2)>12?((task.planETime.substr(11,2)-12)>9?('0'+task.planETime.substr(11,2)-12+task.planSTime.substr(13,3)+'PM'):('0'+(task.planETime.substr(11,2)-12)+task.planETime.substr(13,3)+'PM')):(task.planETime.substr(11,5)+'AM')}}</div>
+                                <div class="taskB-content-time" style="color:#fdbb2b" *ngIf="!(task.planSTime!=''&&task.planSTime!=null&&task.planETime!=''&&task.planETime!=null)">未</div>
+                            </div>
+                            <div class="lb-taskB-content" *ngIf="!(task.workerNm!=''&&task.workerNm!=null)">
+                                <div class="taskB-content-workerNm" style="color: #fdbb2b;">未</div>
+                                <div class="taskB-content-time" *ngIf="task.planSTime!=''&&task.planSTime!=null&&task.planETime!=''&&task.planETime!=null">{{task.planSTime.substr(11,2)>12?((task.planSTime.substr(11,2)-12)>9?('0'+task.planSTime.substr(11,2)-12+task.planSTime.substr(13,3)+'PM'):('0'+(task.planSTime.substr(11,2)-12)+task.planSTime.substr(13,3)+'PM')):(task.planSTime.substr(11,5)+'AM')}}-{{task.planETime.substr(11,2)>12?((task.planETime.substr(11,2)-12)>9?('0'+task.planETime.substr(11,2)-12+task.planSTime.substr(13,3)+'PM'):('0'+(task.planETime.substr(11,2)-12)+task.planETime.substr(13,3)+'PM')):(task.planETime.substr(11,5)+'AM')}}</div>
+                                <div class="taskB-content-time" style="color:#fdbb2b" *ngIf="!(task.planSTime!=''&&task.planSTime!=null&&task.planETime!=''&&task.planETime!=null)">未</div>
+                            </div>
+                        </div>
+                        <div class="taskB-right">
+                            <ion-icon name="ios-attention-red" class="font-33" style="margin-right:3px;font-weight: bold" [hidden]="task.hasHandover==0"></ion-icon>
+                            <ion-icon name="ios-flag" class="font-33 font-w" style="margin-right:3px;" [hidden]="task.opId!=0"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="lb-box-right-con-half"></div>
+        </div>
+    </div>
+</div>

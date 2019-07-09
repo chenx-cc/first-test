@@ -1,0 +1,39 @@
+<!-- ログイン画面 -->
+<ion-content>
+    <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)" novalidate style="height: 100%;">
+        <ion-grid style="height: 100%; display: flex; padding: 0;">
+            <ion-row justify-content-center style="flex: 3; align-items:flex-end" id="loginImg" [hidden]="imgHid">
+                <ion-col col-5>
+                        <div class="con-img">
+                            <img src="assets/imgs/sign.png" /><span></span> 
+                        </div>
+                </ion-col>
+            </ion-row>  
+            <ion-row style="flex: 2;">
+                <ion-col>
+                    <div class="pw-con" style="height: 100%; width: 100%; margin: 0;">
+                        <ion-item style="width:40%">
+                            <ion-label stacked style="font-size: 1vw;">ユーザー ID</ion-label>
+                            <ion-input type="text" inputmode="latin" style="font-size: 1.5vw;" [formControl]="aplUserId" maxlength="255" [(ngModel)]='userId' (ionFocus)='hidImg()' clearInput=true></ion-input>
+                        </ion-item>
+                        <div *ngIf="aplUserId.hasError('required') && aplUserId.touched" class="error-message" style="font-size: 1vw;">アプリユーザー IDを入力してください。</div>
+                        <ion-item style="width:40%">
+                            <ion-label stacked style="font-size: 1vw;">パスワード</ion-label>
+                            <ion-input type="password" inputmode="password" style="font-size: 1.5vw;" [formControl]="password" [(ngModel)]='passwd' (ionFocus)='hidImg()' clearInput=true></ion-input>
+                        </ion-item>
+                        <div *ngIf="password.hasError('required') && password.touched" class="error-message" style="font-size: 1vw;">パスワードを入力してください。</div>
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row justify-content-center style="flex: 1; padding-bottom: 2%;">
+                <ion-col>
+                    <div class="con-button">
+                        <button ion-button round color="warn" class="login-button" type="submit" [disabled]="!loginForm.valid">
+                            ログイン
+                        </button>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
+</ion-content>

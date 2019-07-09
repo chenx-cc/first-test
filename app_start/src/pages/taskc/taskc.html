@@ -1,0 +1,163 @@
+<ion-header>
+    <ion-item no-lines color="warn" style="height:50px;">
+        <ion-label item-start>
+            <ion-icon name="md-arrow-dropleft" color="light" class="font-30 font-w" (click)="goBackPop()"></ion-icon>
+        </ion-label>
+        <ion-label item-content></ion-label>
+        <ion-label item-start class="text-center font-18 bold-white" icon-right>
+            {{frameNm}}
+            <ion-icon name="alert-outline" class="font-20 font-w" hidden></ion-icon>
+        </ion-label>
+    </ion-item>
+</ion-header>
+
+<ion-content id="ion-taskc" padding>
+    <div class="width-100 con-left" style="height:92%">
+        <div class="width-50 font-16 font-w border-right">
+            <div class="width-100 border-top height-top" style="position: relative;z-index: 99; min-height: 356px;">
+                <div class="con-left">
+                    <div class="width-40 pad-10 con-center color">業務名</div>
+                    <div class="pad-5 border-right border-bottom" style="width:55%;">
+                        <ion-input inputmode="kana" no-margin text-right clearInput maxLength="20" type="text" style="height: 100%;padding-top:5px;" name="opNm" [(ngModel)]="opNm"
+                            (ngModelChange)="opnmChange(opNm)">{{opNm}}</ion-input>
+                    </div>
+                    <div class="pad-10 border-right border-bottom con-on-off {{isShowJobFlg?'wb-color':'gw-color'}}" style="width:5%;" (click)="isShowWork()">
+                        <ion-icon name="md-arrow-dropright"></ion-icon>
+                    </div>
+                </div>
+                <div class="con-left">
+                    <div class="width-40">
+                        <div class="pad-10 con-center color" style="height:50%;">開始日</div>
+                        <div class="pad-10 con-center color" style="height:50%;">終了日</div>
+                    </div>
+                    <div style="width:50%">
+                        <ion-datetime class="contain border-bottom" displayFormat="YYYY/MM/DD" text-right doneText="OK" cancelText="Cancel" name="startDate" [(ngModel)]="startDate" 
+                        min="{{endDate!=''?endDate:minDateTime}}" max="{{endDate!=''?endDate:maxDateTime}}" (ngModelChange)="setSDate(startDate)"></ion-datetime>
+                        <ion-datetime class="contain border-bottom" displayFormat="YYYY/MM/DD" text-right doneText="OK" cancelText="Cancel" name="endDate" [(ngModel)]="endDate"
+                        min="{{startDate!=''?startDate:minDateTime}}" max="{{startDate!=''?startDate:maxDateTime}}" (ngModelChange)="setEDate(endDate)"></ion-datetime>
+                    </div>
+                    <div style="width:5%;">
+                        <div class="pad-10 border-right text-right border-bottom con-on-off" style="height: 50%" (click)="clearStartDate()">
+                            <ion-icon style="font-size:12px;" name="md-close"></ion-icon>
+                        </div>
+                        <div class="pad-10 border-right text-right border-bottom con-on-off" style="height: 50%" (click)="clearEndDate()">
+                            <ion-icon style="font-size:12px;" name="md-close"></ion-icon>
+                        </div>
+                    </div>
+                    <div style="width:5%;">
+                        <div class="pad-10 border-right border-bottom height-100 "></div>
+                    </div>
+                </div>
+
+                <div class="con-left">
+                    <div class="width-40">
+                        <div class="pad-10 con-center color" style="height:50%;">開始時刻</div>
+                        <div class="pad-10 con-center color" style="height:50%;">終了時刻</div>
+                    </div>
+                    <div style="width:50%">
+                        <div class="con-center worker-right border-bottom" style="height:50%; padding-right: 8px" name="startTime" (click)="selectSTime()">{{startTime}}</div>
+                        <div class="con-center worker-right border-bottom" style="height:50%; padding-right: 8px" name="endTime" (click)="selectETime()">{{endTime}}</div>
+                    </div>
+                    <div style="width:5%;">
+                        <div class="pad-10 border-right text-right border-bottom con-on-off" style="height: 50%" (click)="clearStartTime()">
+                            <ion-icon style="font-size:12px;" name="md-close"></ion-icon>
+                        </div>
+                        <div class="pad-10 border-right text-right border-bottom con-on-off" style="height: 50%" (click)="clearEndTime()">
+                            <ion-icon style="font-size:12px;" name="md-close"></ion-icon>
+                        </div>
+                    </div>
+                    <div style="width:5%;">
+                        <div class="pad-10 border-right text-right border-bottom height-100 con-on-off {{isShowTimeFlg?'wb-color':'gw-color'}}" (click)="isShowTime()">
+                            <ion-icon name="md-arrow-dropright"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+                <div class="con-left">
+                    <div class="width-40 pad-10 con-center color">担当者</div>
+                    <div class="pad-5 border-bottom text-right" style="width:50%;">
+                        {{selectWorker}}
+                        <div style="color: red;" *ngIf="selectedWorkerFlg">再度担当者を選択してください</div>
+                    </div>
+                    <div style="width:5%;">
+                        <div class="pad-10 border-right text-right height-100 border-bottom con-on-off" (click)="clearWorker()">
+                            <ion-icon style="font-size:12px;" name="md-close"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="pad-10 border-right border-bottom con-on-off {{isShowWorkerFlg?'wb-color':'gw-color'}}" style="width:5%;" (click)="isShowWorker()">
+                        <ion-icon name="md-arrow-dropright"></ion-icon>
+                    </div>
+                </div>
+                <div class="con-left">
+                    <div class="width-40 pad-10 con-center color">繰返しタスク</div>
+                    <div class="width-60 border-right border-bottom con-on-off">
+                        <div class="width-60 onOff-div">
+                            <div class="width-30 onOff-div">
+                                <div>ON</div>
+                                <ion-checkbox color="dark" checked="ON" [(ngModel)]="ON" (ngModelChange)="changeON(ON)"></ion-checkbox>
+                            </div>
+                            <div class="width-30 onOff-div">
+                                <div>OFF</div>
+                                <ion-checkbox color="dark" checked="OFF" [(ngModel)]="OFF" (ngModelChange)="changeOFF(ON)"></ion-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="con-left">
+                    <div class="width-40 pad-10 con-center color">優先度</div>
+                    <div class="width-60 border-right border-bottom con-on-off">
+                        <div class="width-60 onOff-div">
+                            <div class="width-30 onOff-div">
+                                <div>高</div>
+                                <ion-checkbox color="dark" checked="HIGH"  [(ngModel)]="HIGH" (ngModelChange)="changeHIGH(HIGH)"></ion-checkbox>
+                            </div>
+                            <div class="width-30 onOff-div">
+                                <div>通常</div>
+                                <ion-checkbox color="dark" checked="LOW"  [(ngModel)]="LOW" (ngModelChange)="changeLOW(LOW)"></ion-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="width-100 height-center" style="position: relative;z-index: 9;"></div>
+            <ion-item no-lines style="padding-left:5px;">
+                <ion-label item-start></ion-label>
+                <button ion-button round item-start color="warn" style="height:40px;width:200px;" class="bold-white" (click)="createTaskClick()">
+                    <ion-label class="font-16 font-w">登録</ion-label>
+                </button>
+                <ion-label item-end></ion-label>
+            </ion-item>
+        </div>
+        <div class="width-50 font-18 font-w">
+            <div class="width-100 height-100" style="overflow: scroll;">
+                <div [hidden]="isShowJobFlg">
+                    <div *ngFor="let item of showWorkeList; let i= index">
+                        <div class="width-100 border-right border-bottom gw-color con-left" (click)="showOpList(i)">
+                            <div class="width-90 pad-10 text-left">{{item.categoryNm}}</div>
+                            <div class="width-10 pad-tb-10 text-center">
+                                <ion-icon name="ios-arrow-down" class="font-20 font-w" *ngIf="!isShow[i]"></ion-icon>
+                                <ion-icon name="ios-arrow-up" class="font-20 font-w" *ngIf="isShow[i]"></ion-icon>
+                            </div>
+                        </div>
+                        <div class="font-18 font-w" *ngIf="isShow[i]">
+                            <div class="width-100 pad-10 border-right border-bottom text-right" *ngFor="let ite of item.opList" (click)="selectedWork(item.categoryId, item.categoryNm, ite.opId, ite.opNm, ite.duration)">{{ite.opNm}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div [hidden]="isShowTimeFlg">
+                    <div *ngFor="let item of showTimeList; let i= index" (click)="selectedDate(item.shift_nm)">
+                        <div class="width-100 pad-10 border-right border-top border-bottom text-right">
+                            {{item.shift_nm}}（{{item.start_timeF}}　－　{{item.end_timeF}}）
+                        </div>
+                    </div>
+                </div>
+                <div [hidden]="isShowWorkerFlg">
+                    <div *ngFor="let item of showWorkerList; let i= index" (click)="selectedName(i,item.workerId,item.workerNm)">
+                        <div class="width-100 pad-10 border-right border-top border-bottom text-right">
+                            {{item.workerNm}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>

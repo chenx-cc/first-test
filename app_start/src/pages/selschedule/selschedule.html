@@ -1,0 +1,29 @@
+
+<ion-content>
+    <ion-list no-line style="margin:0;">
+        <ion-item no-lines color="warn" style="padding:0;border-bottom:1px solid white" (touchstart)="selInfo('0','カレンダー( 業務別 )')">
+            <ion-label item-content style="padding-left:10px;font-size:18px;" color="light">カレンダー( 業務別 )</ion-label>
+            <ion-icon name="ios-cal" item-end color="light"></ion-icon>
+        </ion-item>
+        <ion-item no-lines color="warn" style="padding:0;border-bottom:1px solid white" (touchstart)="selInfo('1','カレンダー( 担当者別 )')">
+            <ion-label item-content style="padding-left:10px;font-size:18px;" color="light">カレンダー( 担当者別 )</ion-label>
+            <ion-icon name="ios-cal" item-end color="light"></ion-icon>
+        </ion-item>
+        <ion-item no-lines color="warn" style="padding:0;border-bottom:1px solid white" (touchstart)="selInfo('2','かんばん( 業務別 )')">
+            <ion-label item-content style="padding-left:10px;font-size:18px;" color="light">かんばん( 業務別 )</ion-label>
+            <ion-icon name="ios-kanban" item-end color="light"></ion-icon>
+        </ion-item>
+        <ion-item no-lines color="warn" style="padding:0;border-bottom:1px solid white" (touchstart)="selInfo('3','かんばん( 担当者別 )')">
+            <ion-label item-content style="padding-left:10px;font-size:18px;" color="light">かんばん( 担当者別 )</ion-label>
+            <ion-icon name="ios-kanban" item-end color="light"></ion-icon>
+        </ion-item>
+        <ion-item no-lines color="warn" style="padding:0;border-bottom:1px solid white" (click)="goFeedback()">
+            <ion-label item-content style="padding-left:10px;font-size:18px;" color="light">フィードバック</ion-label>
+            <ion-icon name="checkbox-outline" color="light" item-end></ion-icon>
+        </ion-item>
+        <ion-item no-lines color="lgoutColor" style="padding:0;" (click)="logout()">
+            <ion-label item-content style="padding-left:10px;font-size:18px;" color="dark">ログアウト</ion-label>
+            <ion-icon name="ios-logout" color="dark" item-end></ion-icon>
+        </ion-item>
+    </ion-list>
+</ion-content>

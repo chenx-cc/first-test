@@ -1,0 +1,20 @@
+page-selstore {
+    .sel-header{
+        padding-top: 2%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 3.6vw;
+    }
+    .sel-con{
+        margin-top: 5%;
+        display: flex;
+        justify-content: center;
+        height: 75%;
+        overflow: scroll;
+    }
+    .go-button{
+        font-weight: bold;
+        color: white;
+    }
+}

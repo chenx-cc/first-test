@@ -1,0 +1,35 @@
+page-feedback {
+.header-title{
+    text-align: center;
+}
+.table-area{
+    vertical-align: top;
+    top: 18%;
+    height: 80%;
+    width: 100%;
+    display: flex;
+}
+.table{
+    vertical-align: top;
+    height: 100%;
+    width: 45%;
+    margin-right: 5%;
+}
+.table-header{
+    overflow: auto;
+}
+.table-row{
+    height: 100%;
+    overflow: auto;
+}
+.row-header{
+    border-bottom: medium solid;
+}
+.row{
+    border-bottom: 1px solid;
+}
+.handover-icon-area{
+    height: 100%;
+    width: 100%;
+}
+}

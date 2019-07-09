@@ -1,0 +1,12 @@
+<ion-content>
+  <ion-list style="margin:0;font-weight: bold;">
+    <button ion-item class="font-16 font-w" (click)="goHandoverc()">
+      <ion-icon item-start name="ios-attention-grey" style="font-weight: bold"></ion-icon>
+      引継作成
+    </button>
+    <button ion-item class="font-16 font-w" (click)="goHandoverrd()" [disabled]="!getData['hasHandover']">
+      <ion-icon item-start name="ios-attention-red" style="font-weight: bold"></ion-icon>
+      引継確認
+    </button>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,127 @@
+<ion-header>
+    <ion-item no-lines color="warn" style="height:50px;">
+        <ion-label item-start>
+            <ion-icon name="md-arrow-dropleft" color="light" class="font-30 font-w" (click)="goBackPop()"></ion-icon>
+        </ion-label>
+        <ion-label item-content></ion-label>
+        <ion-label item-start class="text-center font-18 bold-white" icon-right>
+            {{storeNm}}
+            <ion-icon name="alert-outline" class="font-20 font-w" hidden></ion-icon>
+        </ion-label>
+    </ion-item>
+</ion-header>
+
+<ion-content padding>
+    <div class="width-100 con-left" style="height:90%;margin-bottom:1%;overflow:scroll;">
+        <div class="width-50 font-16 font-w">
+            <div class="width-95 border-top">
+                <div class="con-left">
+                    <div class="width-40 pad-10 con-center color">業務名</div>
+                    <div class="width-60 pad-10 border-right border-bottom text-right">{{opNm}}</div>
+                </div>
+                <div class="con-left">
+                    <div class="width-40 pad-10 con-center color">業務ステータス</div>
+                    <div class="width-60 pad-10 border-right border-bottom text-right">{{statusContent}}</div>
+                </div>
+                <div class="con-left">
+                    <div class="width-40 pad-10 con-center color">開始日</div>
+                    <div class="width-60 pad-10 border-right border-bottom text-right">{{planSDay}}</div>
+                </div>
+                <div class="con-left">
+                    <div class="width-40 pad-10 con-center color">終了日</div>
+                    <div class="width-60 pad-10 border-right border-bottom text-right">{{planEDay}}</div>
+                </div>
+                <div class="con-left" [hidden]="actualStartFlg">
+                    <div class="width-40 pad-10 con-center color">実開始日</div>
+                    <div class="width-60 pad-10 border-right border-bottom text-right">{{actualSDay}}</div>
+                </div>
+                <div class="con-left" [hidden]="actualEndFlg">
+                    <div class="width-40 pad-10 con-center color">実終了日</div>
+                    <div class="width-60 pad-10 border-right border-bottom text-right">{{actualEDay}}</div>
+                </div>
+                <div class="con-left">
+                    <div class="width-40 pad-10 con-center color">業務サイクル</div>
+                    <div class="width-60 pad-10 border-right border-bottom text-right">{{opCircle}}</div>
+                </div>
+                <div class="con-left">
+                    <div class="width-40 pad-10 con-center color">担当者</div>
+                    <div class="width-60 pad-10 border-right border-bottom text-right">{{workerNm}}</div>
+                </div>
+                <div class="con-left">
+                    <div class="width-40 pad-10 con-center color">開始時間</div>
+                    <div class="width-60 pad-10 border-right border-bottom text-right">{{planSHour}}</div>
+                </div>
+                <div class="con-left">
+                    <div class="width-40 pad-10 con-center color">終了時間</div>
+                    <div class="width-60 pad-10 border-right border-bottom text-right">{{planEHour}}</div>
+                </div>
+                <div class="con-left" [hidden]="actualStartFlg">
+                    <div class="width-40 pad-10 con-center color">実開始時間</div>
+                    <div class="width-60 pad-10 border-right border-bottom text-right">{{actualSHour}}</div>
+                </div>
+                <div class="con-left" [hidden]="actualEndFlg">
+                    <div class="width-40 pad-10 con-center color">実終了時間</div>
+                    <div class="width-60 pad-10 border-right border-bottom text-right">{{actualEHour}}</div>
+                </div>
+                <div class="con-left">
+                    <div class="width-40 pad-10 con-center color">繰返しタスク</div>
+                    <div class="width-60 border-right border-bottom con-on-off">
+                        <div class="width-60 onOff-div">
+                            <div class="width-30 onOff-div">
+                                <div>ON</div>
+                                <ion-checkbox color="dark" [checked]="checkedON" disabled></ion-checkbox>
+                            </div>
+                            <div class="width-30 onOff-div">
+                                <div>OFF</div>
+                                <ion-checkbox color="dark" [checked]="checkedOFF" disabled></ion-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="con-left">
+                    <div class="width-40 pad-10 con-center color">優先度</div>
+                    <div class="width-60 border-right border-bottom con-on-off">
+                        <div class="width-60 onOff-div">
+                            <div class="width-30 onOff-div">
+                                <div>通常</div>
+                                <ion-checkbox color="dark" [checked]="checkedLOW" disabled></ion-checkbox>
+                            </div>
+                            <div class="width-30 onOff-div">
+                                <div>高</div>
+                                <ion-checkbox color="dark" [checked]="checkedHIGH" disabled></ion-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="width-50 font-16 font-w border-left">
+            <div class="width-95" style="margin-left:5%;">
+                <div class="con-left border-top" *ngFor="let item of checkList; let i=index">
+                    <div class="width-40 pad-10 con-center" style="background-color: rgb(255, 179, 0);color:white;">
+                        チェック{{i+1}}
+                        <div class="con-right">
+                            <ion-icon name="{{item.chkStatus==1?'md-checkmark':item.chkStatus==2?'md-close':9}}" color="light" class="font-w"></ion-icon>
+                        </div>
+                    </div>
+                    <div class="con-checkList width-60 pad-10 border-right border-bottom">{{item.chkContents}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ion-item no-lines style="padding-left:5px;">
+        <ion-label item-start></ion-label>
+        <button ion-button round item-start color="warn" style="height:40px;width:260px;" class="bold-white" (click)="deleteButton()">
+            <ion-label class="font-16 font-w">削除</ion-label>
+        </button>
+        <button ion-button round item-start color="warn" style="height:40px;width:260px;" class="bold-white" (click)="goHandoverrd()"
+            [disabled]="!getData['hasHandover']">
+            <ion-label class="font-16 font-w">引継確認</ion-label>
+        </button>
+        <button ion-button round item-start color="warn" style="height:40px;width:260px;" class="bold-white" [disabled]="editFlg"
+            (click)="goTaskUpdate()">
+            <ion-label class="font-16 font-w">編集</ion-label>
+        </button>
+        <ion-label item-end></ion-label>
+    </ion-item>
+</ion-content>

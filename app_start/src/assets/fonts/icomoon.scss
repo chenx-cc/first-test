@@ -1,0 +1,137 @@
+$icomoon-font-path: $font-path !default;
+
+@font-face {
+  font-family: 'Ionicons';
+  src:  url('#{$icomoon-font-path}/icomoon.eot?3e7wix');
+  src:  url('#{$icomoon-font-path}/icomoon.eot?fm9rzn#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/icomoon.ttf?3e7wix') format('truetype'),
+    url('#{$icomoon-font-path}/icomoon.woff?3e7wix') format('woff'),
+    url('#{$icomoon-font-path}/icomoon.svg?3e7wix#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.icon {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'Ionicons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ion-ios-will:before {
+  content: "\e906";
+  color: #78909c;
+}
+.ion-ios-will-grey:before {
+  content: "\e906";
+  color: #ccc;
+}
+.ion-ios-doing:before {
+  content: "\e903";
+  color: #78909c;
+}
+.ion-ios-doing-grey:before {
+  content: "\e903";
+  color: #ccc;
+}
+.ion-ios-stop:before {
+  content: "\e905";
+  color: #78909c;
+}
+.ion-ios-stop-grey:before {
+  content: "\e905";
+  color: #ccc;
+}
+.ion-ios-done:before {
+  content: "\e904";
+  color: #78909c;
+}
+.ion-ios-done-grey:before {
+  content: "\e904";
+  color: #ccc;
+}
+.ion-ios-cal:before {
+  content: "\e902";
+  color: #fff;
+}
+.ion-ios-kanban:before {
+  content: "\e908";
+  color: #fff;
+}
+.ion-ios-logout:before {
+  content: "\e909";
+  color: #78909c;
+}
+.ion-ios-handover:before {
+  content: "\e907";
+  color: #ffb300;
+}
+.ion-ios-handover-grey:before {
+  content: "\e907";
+  color: #78909c;
+}
+.ion-ios-advice:before {
+  content: "\e900";
+  color: #78909c;
+}
+.ion-ios-flag:before {
+  content: "\e913";
+  color: #feb60a;
+}
+.ion-ios-priority:before {
+  content: "\e90d";
+  color: #feb60a;
+}
+.ion-ios-change:before {
+  content: "\e914";
+  color: #fff;
+}
+.ion-ios-change2:before {
+  content: "\e915";
+  color: #fff;
+}
+.ion-ios-attention-grey:before {
+  content: "\e901";
+  color: #78909c;
+}
+.ion-ios-attention-red:before {
+  content: "\e901";
+  color: #E53935;
+}
+.ion-ios-attention-white:before {
+  content: "\e901";
+  color: #fff;
+}
+.ion-ios-Oval-2:before {
+  content: "\e90e";
+  color: #ffb300;
+}
+
+.ion-ios-order_first:before {
+  content: "\e90a";
+  color: #78909c;
+}
+.ion-ios-order_second:before {
+  content: "\e90b";
+  color: #78909c;
+}
+.ion-ios-order_third:before {
+  content: "\e90c";
+  color: #78909c;
+}
+.ion-ios-zoom-in:before {
+  content: "\e916";
+  color: #fff;
+}
+.ion-ios-zoom-out:before {
+  content: "\e917";
+  color: #fff;
+}
